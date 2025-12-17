@@ -14,4 +14,8 @@ public class studentController {
         new StudentRecord(UUID .randomUUID(), "Priya", "Sharma", "priya.123@gmail.com", StudentRecord.Gender.FEMALE)
     );
    }
+
+   @GetMapping("getByName")
+   
+
 }
