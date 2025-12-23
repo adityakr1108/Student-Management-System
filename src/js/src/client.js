@@ -1,2 +1,2 @@
 
-export const getAllStudents = () => fetch("/students");
+export const getAllStudents = () => fetch("/api/students");
