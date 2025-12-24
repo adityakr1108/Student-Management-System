@@ -1,34 +1,101 @@
-# Spring Boot with React
+# Student Management System
 
-A full-stack application built with Spring Boot backend and React frontend.
+A full-stack student management application built with Spring Boot backend and React frontend. Features include viewing student records, adding new students through a modal form, and real-time data synchronization.
 
-## Technologies Used
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.0-brightgreen)
+![Java](https://img.shields.io/badge/Java-21-orange)
+![React](https://img.shields.io/badge/React-19.2.3-blue)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18.1-blue)
+
+## 📋 Features
+
+- ✅ **Student List View** - Display all students in a responsive data table
+- ✅ **Add Student** - Modal form to add new students with validation
+- ✅ **Avatar Generation** - Automatic avatar creation from student initials
+- ✅ **Loading States** - Custom loading spinner with 3-second delay
+- ✅ **RESTful API** - Spring Boot backend with proper MVC architecture
+- ✅ **Database Migration** - Flyway for version-controlled schema management
+- ✅ **Responsive Design** - Mobile-friendly UI with Ant Design components
+- ✅ **CORS Support** - Cross-origin requests enabled for frontend-backend communication
+
+## 🛠️ Technologies Used
 
 ### Backend
-- **Spring Boot 4.0.0** - Java framework for building the REST API
-- **Java 21** - Programming language
-- **H2 Database** - Embedded in-memory database for development
-- **Flyway** - Database migration tool
-- **Maven** - Dependency management and build tool
+- **Spring Boot 4.0.0** - Java framework for building REST APIs
+- **Java 21** - Programming language with latest features
+- **PostgreSQL 18.1** - Production-grade relational database
+- **Flyway** - Database migration and version control
+- **HikariCP** - High-performance JDBC connection pool
+- **Maven** - Dependency management and build automation
 
 ### Frontend
-- **React** (Coming soon)
+- **React 19.2.3** - Modern JavaScript library for UI
+- **Ant Design 6.1.1** - Professional React UI component library
+- **React Hooks** - useState for state management
+- **CSS3** - Custom styling with gradients and animations
+- **Fetch API** - HTTP client for REST API calls
 
-## Features
+## 📁 Project Structure
 
-- RESTful API endpoints
-- In-memory H2 database with console access
-- Database migrations with Flyway
-- Student management system
+```
+├── src/
+│   ├── main/
+│   │   ├── java/com/springPractice/demo/
+│   │   │   ├── DemoApplication.java           # Spring Boot main class
+│   │   │   ├── datasource/
+│   │   │   │   └── Datasource.java            # Database configuration
+│   │   │   └── Student/
+│   │   │       ├── Student.java               # Student entity
+│   │   │       ├── StudentRecord.java         # Data transfer object
+│   │   │       ├── StudentController.java     # REST API endpoints
+│   │   │       ├── StudentService.java        # Business logic layer
+│   │   │       └── StudentDataAccessService.java  # Data access layer
+│   │   └── resources/
+│   │       ├── application.yml                # App configuration
+│   │       └── db/migration/
+│   │           └── V1__CreateStudentTable.sql # Database schema
+│   └── js/                                    # React frontend
+│       ├── public/
+│       │   └── index.html
+│       └── src/
+│           ├── App.js                         # Main React component
+│           ├── App.css                        # App styling
+│           ├── client.js                      # API client
+│           ├── container.js                   # Layout wrapper
+│           ├── footer.js                      # Footer with add student form
+│           ├── Footer.css                     # Footer styling
+│           └── index.js                       # React entry point
+└── pom.xml                                    # Maven configuration
+```
 
-## Prerequisites
+## 🚀 Getting Started
 
-- Java 21 or higher
-- Maven 3.6+ (or use the included Maven wrapper)
+### Prerequisites
 
-## Getting Started
+- **Java 21** or higher
+- **PostgreSQL 18.1** installed and running
+- **Node.js 16+** and npm
+- **Maven 3.6+** (or use included wrapper)
 
-### Running the Application
+### Database Setup
+
+1. Install PostgreSQL and create the database:
+```bash
+psql -U postgres
+CREATE DATABASE demoapplication;
+\q
+```
+
+2. Update database credentials in `src/main/resources/application.yml`:
+```yaml
+app:
+  datasource:
+    jdbc-url: jdbc:postgresql://localhost:5432/demoapplication
+    username: postgres
+    password: your_password
+```
+
+### Backend Setup
 
 1. Clone the repository:
 ```bash
@@ -38,61 +105,160 @@ cd Spring_Boot_With_React
 
 2. Build the project:
 ```bash
-./mvnw clean package
+./mvnw clean install
 ```
 
-3. Run the application:
+3. Run the Spring Boot application:
 ```bash
 ./mvnw spring-boot:run
 ```
 
-The application will start on `http://localhost:8080`
+Backend will start on `http://localhost:8080`
 
-### Accessing H2 Console
+### Frontend Setup
 
-The H2 database console is available at: `http://localhost:8080/h2-console`
-
-**Connection Details:**
-- JDBC URL: `jdbc:h2:mem:demo`
-- Username: `sa`
-- Password: (leave empty)
-
-## Project Structure
-
-```
-src/
-├── main/
-│   ├── java/
-│   │   └── com/springPractice/demo/
-│   │       ├── DemoApplication.java
-│   │       └── Student/
-│   └── resources/
-│       ├── application.properties
-│       └── db/migration/
-└── test/
+1. Navigate to the React app:
+```bash
+cd src/js
 ```
 
-## API Endpoints
+2. Install dependencies:
+```bash
+npm install
+```
 
-(Documentation coming soon)
+3. Start the development server:
+```bash
+npm start
+```
 
-## Database Migrations
+Frontend will start on `http://localhost:3000`
 
-Flyway migrations are located in `src/main/resources/db/migration/`. 
+## 🔌 API Endpoints
 
-Migrations run automatically on application startup.
+Base URL: `http://localhost:8080/api`
 
-## Building for Production
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/students` | Get all students |
+| POST | `/students` | Add a new student |
 
+### Example Request
+
+```bash
+curl -X GET http://localhost:8080/api/students
+```
+
+### Example Response
+
+```json
+[
+  {
+    "id": "123e4567-e89b-12d3-a456-426614174000",
+    "firstName": "Aditya",
+    "lastname": "Kumar",
+    "email": "aditya.kumar@example.com",
+    "gender": "MALE"
+  }
+]
+```
+
+## 🗄️ Database Schema
+
+```sql
+CREATE TABLE student (
+    students_id UUID PRIMARY KEY NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    gender VARCHAR(6) NOT NULL CHECK (gender IN ('MALE', 'FEMALE'))
+);
+```
+
+## 🎨 Screenshots
+
+### Student List View
+- Displays all students in a table with avatars
+- Shows student ID, name, email, and gender
+- Responsive design with centered layout
+
+### Add Student Modal
+- Professional modal form with gradient header
+- Form fields: First Name, Last Name, Email, Gender
+- Input validation and error handling
+- Submit, Reset, and Fill form buttons
+
+## 🔧 Configuration
+
+### Backend Configuration (`application.yml`)
+
+```yaml
+server:
+  servlet:
+    context-path: /api
+
+app:
+  datasource:
+    jdbc-url: jdbc:postgresql://localhost:5432/demoapplication
+    username: postgres
+    password: password
+    pool-size: 30
+```
+
+### Frontend Configuration (`package.json`)
+
+```json
+{
+  "proxy": "http://localhost:8080"
+}
+```
+
+## 🧪 Testing
+
+Run backend tests:
+```bash
+./mvnw test
+```
+
+Run frontend tests:
+```bash
+cd src/js
+npm test
+```
+
+## 📦 Building for Production
+
+### Backend
 ```bash
 ./mvnw clean package -DskipTests
 java -jar target/demo-0.0.1-SNAPSHOT.jar
 ```
 
-## Contributing
+### Frontend
+```bash
+cd src/js
+npm run build
+```
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+## 🤝 Contributing
 
-## License
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-This project is open source and available under the MIT License.
+## 📝 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 👨‍💻 Author
+
+**Aditya Kumar** - [adityakr1108](https://github.com/adityakr1108)
+
+## 🙏 Acknowledgments
+
+- Spring Boot Team for the excellent framework
+- React Team for the powerful UI library
+- Ant Design for beautiful UI components
+- PostgreSQL community for the robust database
