@@ -132,10 +132,10 @@ class App extends Component {
             title="Add a new student"
             open={isAddStudentModalVisible}
             onOk={this.closeAddStudentModal}
-            onCancel={this.closeAddStudentModal}
+            onCancel={this.closeAddStudentModal}  
             width={1000}
           >
-            <AddStudentForm />
+            <AddStudentForm/>
           </Modal>
             <Footer
               numberOfStudents={students.length}

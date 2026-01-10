@@ -29,6 +29,11 @@ public class StudentDataAccessService {
                     "FROM student";
         return jdbcTemplate.query(sql, mapStudentFromDb());
     }
+    boolean addNewStudent(UUID id, Student student){
+        String sql = "" +
+                    "INSERT " +
+                    "INTO student (students_id, first_name, last_name, email, gender) " +
+    }
 
     private RowMapper<Student> mapStudentFromDb() {
         return (resultSet, i) -> {

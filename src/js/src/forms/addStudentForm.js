@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Formik } from 'formik';
 import { Input, Button, Tag } from 'antd';
+import { addNewStudent } from '../client';
 
-const tagStyle = {backgroundColor: '#f50',color: 'white',marginTop:'2px', marginBottom: '2px', display:
-  'block', width:'fit-content' };
-const h4Style = { marginBottom: '6px', marginTop:'5px',display:'inline' };
+const tagStyle = {
+  backgroundColor: '#f50', color: 'white', marginTop: '2px', marginBottom: '2px', display:
+    'block', width: 'fit-content'
+};
+const h4Style = { marginBottom: '6px', marginTop: '5px', display: 'inline' };
 
 class AddStudentForm extends Component {
   render() {
@@ -36,8 +39,8 @@ class AddStudentForm extends Component {
           // Gender
           if (!values.gender) {
             errors.gender = 'Gender Required';
-          } else if (!['female','male','FEMALE','MALE','Male','Female'].includes(values.gender)) {
-            errors.gender = "Gender must be 'Ma le' or 'Female'";
+          } else if (!['female', 'male', 'FEMALE', 'MALE', 'Male', 'Female'].includes(values.gender)) {
+            errors.gender = "Gender must be 'Male' or 'Female'";
           }
 
           // Email
@@ -50,11 +53,11 @@ class AddStudentForm extends Component {
           }
           return errors;
         }}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(()=>{
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          },400)
+        onSubmit={(student, { setSubmitting }) => {
+            addNewStudent(student).then(()=>{
+              alert("Student Added Successfully!");
+              setSubmitting(false);
+            });
         }}
       >
         {({
@@ -77,7 +80,7 @@ class AddStudentForm extends Component {
               onBlur={handleBlur}
               value={values.firstName}
             />
-            {errors.firstName && touched.firstName && <Tag style = {tagStyle}>{errors.firstName}</Tag>}
+            {errors.firstName && touched.firstName && <Tag style={tagStyle}>{errors.firstName}</Tag>}
             <h4 style={h4Style}>Enter the last name</h4>
             <Input
               name="lastName"
@@ -86,21 +89,21 @@ class AddStudentForm extends Component {
               onBlur={handleBlur}
               value={values.lastName}
             />
-            {errors.lastName && touched.lastName && <Tag style = {tagStyle}>{errors.lastName}</Tag>}
+            {errors.lastName && touched.lastName && <Tag style={tagStyle}>{errors.lastName}</Tag>}
             <h4 style={h4Style}>Select the gender from the options below: </h4>
             <select
-                id="gender"
-                name="gender"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.gender}
+              id="gender"
+              name="gender"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.gender}
             >
-                <option value="">Select a gender</option>
-                <option value="MALE">Male</option>
-                <option value="FEMALE">Female</option>
+              <option value="">Select a gender</option>
+              <option value="MALE">Male</option>
+              <option value="FEMALE">Female</option>
             </select>
-            {touched.gender && errors.gender && 
-                <Tag style = {tagStyle}>{errors.gender}</Tag>
+            {touched.gender && errors.gender &&
+              <Tag style={tagStyle}>{errors.gender}</Tag>
             }
             <Input
               name="email"
@@ -109,9 +112,9 @@ class AddStudentForm extends Component {
               onBlur={handleBlur}
               value={values.email}
             />
-            {errors.email && touched.email && <Tag style = {tagStyle}>{errors.email}</Tag>}
+            {errors.email && touched.email && <Tag style={tagStyle}>{errors.email}</Tag>}
             <Button
-              onClick = {() => submitForm()}
+              onClick={() => submitForm()}
               type="primary"
               disabled={isSubmitting | (touched && !isValid)}
             >

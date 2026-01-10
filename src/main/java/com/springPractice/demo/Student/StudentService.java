@@ -1,6 +1,7 @@
 package com.springPractice.demo.Student;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,5 +17,9 @@ public class StudentService {
 
     public List<Student> getAllStudents() {
         return studentDataAccessService.selectAllStudents();
+    }
+    public void addNewStudent(UUID id,Student student){
+        UUID newId = Optional.ofNullable(id).orElse(UUID.randomUUID());
+        studentDataAccessService.addNewStudent(newId, student);
     }
 }
