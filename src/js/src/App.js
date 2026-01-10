@@ -3,10 +3,9 @@ import {getAllStudents} from './client';
 import {Component} from 'react';
 import Footer from './footer';
 import Container from './container';
-import { Avatar} from 'antd';
-import {
-  Table,Spin
-} from 'antd';
+import {   Table,Spin, Avatar,Modal} from 'antd';
+import 'antd/dist/antd.css';
+import {AddStudentForm} from './forms/addStudentForm';
 import { LoadingOutlined } from '@ant-design/icons';
 
 /**
@@ -17,7 +16,8 @@ class App extends Component {
   // Initialize state with empty students array
   state = {
     students: [],
-    isFetching: false
+    isFetching: false,
+    isAddStudentModalVisible: false
   }
 
   /**
@@ -27,6 +27,14 @@ class App extends Component {
   componentDidMount() {
     this.fetchAllStudents();
   }
+  openAddStudentModal = () => this.setState({isAddStudentModalVisible: true});
+  // {
+  //   console.log('openAddStudentModal called');
+  //   , () => {
+  //     console.log('isAddStudentModalVisible state:', this.state.isAddStudentModalVisible);
+  //   });
+  // }
+  closeAddStudentModal = () => this.setState({isAddStudentModalVisible: false});
 
   /**
    * Fetches all students from the backend API
@@ -51,14 +59,6 @@ class App extends Component {
       }); // Log any errors that occur
   }
 
-  /**
-   * Opens the add student modal
-   * This function is passed to Footer component as a prop
-   */
-  openAddStudentModal = () => {
-    console.log('Open add student modal');
-    // Modal logic is handled in Footer component
-  }
 
 
   
@@ -69,7 +69,7 @@ class App extends Component {
    */
   render() {
       const antIcon = <LoadingOutlined style={{ fontSize: 24 , color: '#be6416ff'}} spin />;
-      const {students, isFetching} = this.state; // Destructure students and isFetching from state
+      const {students, isFetching,isAddStudentModalVisible} = this.state; // Destructure students and isFetching from state
       // Define table column configuration
       if(isFetching){
       return (
@@ -128,8 +128,18 @@ class App extends Component {
             columns={columns}         // Define which columns to display
             pagination={false}        // Disable pagination
             rowKey="id" />           {/* Use 'id' field as unique key for each row */}
-            <Footer numberOfStudents={students.length}
-             handleAddStudentClickEvent={this.openAddStudentModal}/>
+          <Modal 
+            title="Add a new student"
+            open={isAddStudentModalVisible}
+            onOk={this.closeAddStudentModal}
+            onCancel={this.closeAddStudentModal}
+            width={1000}
+          >
+            <AddStudentForm />
+          </Modal>
+            <Footer
+              numberOfStudents={students.length}
+              handleAddStudentClickEvent={this.openAddStudentModal}/>
         </Container>
       );
   }
