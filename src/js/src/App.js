@@ -51,7 +51,7 @@ class App extends Component {
         setTimeout(() => {
           this.setState({students: data,
              isFetching: false}); // Update state with fetched student data
-        }, 1000);
+        }, 200);
       })
       .catch(err => {
         console.error('Error:', err);
@@ -84,7 +84,7 @@ class App extends Component {
           key:'avatar',
           render:(text,student) => (
             <Avatar size = 'large' >
-              {`${student.firstName.charAt(0).toUpperCase()}${student.lastname.charAt(0).toUpperCase()}`}
+              {`${student.firstName?.charAt(0).toUpperCase() || ''}${student.lastname?.charAt(0).toUpperCase() || ''}`}
             </Avatar> 
           )
         },
@@ -100,8 +100,8 @@ class App extends Component {
         },
         {
           title: "Last Name",
-          dataIndex: "lastname",
-          key: "lastname"
+          dataIndex: "lastName",
+          key: "lastName"
         },
         {
           title: "Gender",

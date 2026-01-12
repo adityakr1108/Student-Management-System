@@ -29,10 +29,27 @@ public class StudentDataAccessService {
                     "FROM student";
         return jdbcTemplate.query(sql, mapStudentFromDb());
     }
-    boolean addNewStudent(UUID id, Student student){
+    int insertStudent(UUID id, Student student){
         String sql = "" +
-                    "INSERT " +
-                    "INTO student (students_id, first_name, last_name, email, gender) " +
+                    "INSERT INTO student ( " +
+                    " students_id," +
+                    " first_name," +
+                    " last_name," +
+                    " email," +
+                    " gender)" +
+                    "VALUES (?, ?, ?, ?, ?)";
+            int rowsAffected = jdbcTemplate.update(sql,
+                id,
+                student.getFirstName(),
+                student.getLastName(),
+                student.getEmail(),
+                student.getGender().name().toUpperCase()
+            );
+            if(rowsAffected > 0){
+                return rowsAffected;
+            } else {
+                return 0;
+            }
     }
 
     private RowMapper<Student> mapStudentFromDb() {

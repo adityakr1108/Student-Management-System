@@ -53,10 +53,12 @@ class AddStudentForm extends Component {
           }
           return errors;
         }}
-        onSubmit={(student, { setSubmitting }) => {
+        onSubmit={(student, { setSubmitting, resetForm }) => {
             addNewStudent(student).then(()=>{
               alert("Student Added Successfully!");
               setSubmitting(false);
+              resetForm(); // Reset the form fields to their initial values
+              window.location.reload();
             });
         }}
       >

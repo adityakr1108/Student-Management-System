@@ -20,6 +20,10 @@ public class StudentService {
     }
     public void addNewStudent(UUID id,Student student){
         UUID newId = Optional.ofNullable(id).orElse(UUID.randomUUID());
-        studentDataAccessService.addNewStudent(newId, student);
+        if(studentDataAccessService.insertStudent(newId, student) > 0){
+            System.out.println("Student added successfully: " + student);
+        } else {
+            System.out.println("Failed to add student: " + student);
+        }
     }
 }
