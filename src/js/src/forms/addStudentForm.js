@@ -55,10 +55,9 @@ class AddStudentForm extends Component {
         }}
         onSubmit={(student, { setSubmitting, resetForm }) => {
             addNewStudent(student).then(()=>{
-              alert("Student Added Successfully!");
-              setSubmitting(false);
-              resetForm(); // Reset the form fields to their initial values
-              window.location.reload();
+            this.props.onSuccess();
+            setSubmitting(false);
+            resetForm(); // Reset the form fields to their initial values
             });
         }}
       >

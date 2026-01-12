@@ -28,19 +28,8 @@ class App extends Component {
     this.fetchAllStudents();
   }
   openAddStudentModal = () => this.setState({isAddStudentModalVisible: true});
-  // {
-  //   console.log('openAddStudentModal called');
-  //   , () => {
-  //     console.log('isAddStudentModalVisible state:', this.state.isAddStudentModalVisible);
-  //   });
-  // }
   closeAddStudentModal = () => this.setState({isAddStudentModalVisible: false});
 
-  /**
-   * Fetches all students from the backend API
-   * Makes GET request to /students endpoint and updates component state with the response
-   * Includes a 5-second delay to simulate loading time
-   */
   fetchAllStudents = () => {
     this.setState({isFetching: true});
     getAllStudents()
@@ -135,7 +124,10 @@ class App extends Component {
             onCancel={this.closeAddStudentModal}  
             width={1000}
           >
-            <AddStudentForm/>
+            <AddStudentForm
+            onSuccess = {()=>{
+            this.closeAddStudentModal();
+            this.fetchAllStudents()}}/>
           </Modal>
             <Footer
               numberOfStudents={students.length}
