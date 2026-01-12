@@ -7,6 +7,7 @@ import {   Table,Spin, Avatar,Modal} from 'antd';
 import 'antd/dist/antd.css';
 import {AddStudentForm} from './forms/addStudentForm';
 import { LoadingOutlined } from '@ant-design/icons';
+import {errorNotification} from './Notification';
 
 /**
  * Main App component that displays a table of student data
@@ -30,27 +31,26 @@ class App extends Component {
   openAddStudentModal = () => this.setState({isAddStudentModalVisible: true});
   closeAddStudentModal = () => this.setState({isAddStudentModalVisible: false});
 
-  fetchAllStudents = () => {
-    this.setState({isFetching: true});
+fetchAllStudents = () => {
+    this.setState({ isFetching: true });
     getAllStudents()
-      .then(res => res.json()) // Parse JSON response
-      .then(data => {
-        console.log('Data received:', data);
-        // Add 5-second delay before displaying the data
-        setTimeout(() => {
-          this.setState({students: data,
-             isFetching: false}); // Update state with fetched student data
-        }, 200);
-      })
-      .catch(err => {
-        console.error('Error:', err);
-        this.setState({isFetching: false});
-      }); // Log any errors that occur
-  }
-  /**
-   * Renders the component UI
-   * Shows loading message if no data, otherwise displays student table
-   */
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            this.setState({
+                students: data,
+                isFetching: false,
+            });
+        })
+        .catch(error => {
+            if (!this.state.isFetching) { // Prevent duplicate notifications
+                const message = error.error || "An unexpected error occurred";
+                errorNotification("Error", message);
+            }
+            this.setState({ isFetching: false });
+        });
+};
+
   render() {
       const antIcon = <LoadingOutlined style={{ fontSize: 24 , color: '#be6416ff'}} spin />;
       const {students, isFetching,isAddStudentModalVisible} = this.state; // Destructure students and isFetching from state
@@ -101,7 +101,7 @@ class App extends Component {
 
       // Check if students data is empty or not yet loaded
       if (!students || students.length === 0) {
-        return <h1>Hello Guys - Loading...</h1>
+        return <h1>No Student Found..</h1>
       }
 
       // Render the student data table

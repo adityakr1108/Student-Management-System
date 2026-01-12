@@ -1,5 +1,18 @@
+const checkStatus = response => {
+    if (response.ok) {
+        return response;
+    } else {
+        return response.json().then(errorData => {
+            let error = new Error(response.statusText);
+            error.response = response;
+            error.error = errorData.error || "An unexpected error occurred"; // Extract error message
+            return Promise.reject(error); // Pass the error to the caller
+        });
+    }
+};
 
-export const getAllStudents = () => fetch("/api/students");
+export const getAllStudents = () => fetch("/api/students")
+        .then(checkStatus);
 
 export const addNewStudent = (student) => fetch("/api/students", {
     method: "POST",
@@ -7,4 +20,4 @@ export const addNewStudent = (student) => fetch("/api/students", {
         "Content-Type": "application/json"
     },
     body: JSON.stringify(student)
-});
+}).then(checkStatus);
