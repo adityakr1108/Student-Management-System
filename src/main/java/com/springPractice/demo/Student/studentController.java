@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import com.springPractice.demo.exception.ApiRequestException;
 
 @RestController
 @RequestMapping("students")
@@ -24,10 +25,9 @@ public class studentController {
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+    // @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
     List<Student> getAllStudents() {
-        throw new UnsupportedOperationException("API not implemented yet");
-        // return studentService.getAllStudents();
+        throw new ApiRequestException("Api not implemneted yet");
     }
     @PostMapping
     public void addNewStudent(@RequestBody Student student) {
