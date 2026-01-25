@@ -2,6 +2,8 @@ import React from 'react';
 import { Formik } from 'formik';
 import { Input, Button, Tag } from 'antd';
 import { addNewStudent } from '../client';
+import {successNotification, warningNotification } from '../Notification';
+
 
 const tagStyle = {
   backgroundColor: '#f50', color: 'white', marginTop: '2px', marginBottom: '2px', display:
@@ -29,7 +31,7 @@ const AddStudentForm = (props) => (
 
       // Last Name
       if (!values.lastName) {
-        errors.lastName = 'Last NameRequired';
+        errors.lastName = 'Last Name Required';
       } else if (values.lastName.length > 15) {
         errors.lastName = 'Length must be less than 15';
       }
@@ -52,11 +54,21 @@ const AddStudentForm = (props) => (
       return errors;
     }}
     onSubmit={(student, { setSubmitting, resetForm }) => {
-      addNewStudent(student).then(() => {
-        props.onSuccess();
-        setSubmitting(false);
-        resetForm(); // Reset the form fields to their initial values
-      });
+      addNewStudent(student)
+        .then(() => {
+          successNotification(
+            'Student added successfully',
+            `Student ${student.firstName} ${student.lastName} has been added.`
+          );
+          props.onSuccess();
+          setSubmitting(false);
+          resetForm(); // Reset the form fields to their initial values
+        })
+        .catch((error) => {
+          const message = 'Error while adding student';
+          warningNotification(message, error.error || 'An unexpected error occurred. Please try again.');
+          setSubmitting(false);
+        });
     }}
   >
     {({
@@ -115,7 +127,7 @@ const AddStudentForm = (props) => (
         <Button
           onClick={() => submitForm()}
           type="primary"
-          disabled={isSubmitting | (touched && !isValid)}
+          disabled={isSubmitting || (touched && !isValid)}
         >
           Submit
         </Button>
@@ -123,4 +135,5 @@ const AddStudentForm = (props) => (
     )}
   </Formik>
 );
+
 export { AddStudentForm };
