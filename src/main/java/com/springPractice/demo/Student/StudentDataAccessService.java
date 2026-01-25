@@ -62,6 +62,17 @@ public class StudentDataAccessService {
             }
     }
 
+    public void deleteStudentById(UUID id) {
+        String sql = "DELETE FROM student WHERE students_id = ?";
+        jdbcTemplate.update(sql, id);
+    }
+
+    public boolean existsById(UUID id) {
+        String sql = "SELECT COUNT(*) FROM student WHERE students_id = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id);
+        return count != null && count > 0;
+    }
+    
     private RowMapper<Student> mapStudentFromDb() {
         return (resultSet, i) -> {
             String studentIDStr =  resultSet.getString("students_id");
@@ -81,4 +92,4 @@ public class StudentDataAccessService {
         };
     }
 }
-            
+

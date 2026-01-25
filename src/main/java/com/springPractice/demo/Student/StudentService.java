@@ -31,4 +31,12 @@ public class StudentService {
             System.out.println("Failed to add student: " + student);
         }
     }
+
+    public void deleteStudent(UUID id) {
+        boolean exists = studentDataAccessService.existsById(id);
+        if (!exists) {
+            throw new IllegalStateException("Student with ID " + id + " does not exist.");
+        }
+        studentDataAccessService.deleteStudentById(id);
+    }
 }
