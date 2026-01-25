@@ -5,7 +5,7 @@ const checkStatus = response => {
         return response.json().then(errorData => {
             let error = new Error(response.statusText);
             error.response = response;
-            error.error = errorData.error || "An unexpected error occurred"; // Extract error message
+            error.error = errorData.message || "An unexpected error occurred"; // Extract error message
             console.log("Error data from server:", errorData);
             return Promise.reject(error); // Pass the error to the caller
         });

@@ -3,13 +3,13 @@ package com.springPractice.demo.Student;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+// import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+// import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.springPractice.demo.exception.ApiRequestException;
 
@@ -27,10 +27,15 @@ public class studentController {
     @GetMapping
     // @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
     List<Student> getAllStudents() {
+        // return new ArrayList<>(studentService.getAllStudents());
         throw new ApiRequestException("Api not implemneted yet");
     }
     @PostMapping
-    public void addNewStudent(@RequestBody Student student) {
+    public void addNewStudent(@RequestBody  Student student) {
+        if (student.getFirstName() == null || student.getLastName() == null || 
+            student.getEmail() == null || student.getGender() == null) {
+            throw new ApiRequestException("Enter Valid Arguments");
+        }
         studentService.addNewStudent(null, student);
     }
 
